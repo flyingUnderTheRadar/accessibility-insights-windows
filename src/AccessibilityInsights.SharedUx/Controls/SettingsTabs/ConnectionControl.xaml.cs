@@ -44,9 +44,7 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
 
         #region configuration updating code
         /// <summary>
-        /// Updates the MRU list of servers from the configuration
-        /// Depending on whether we are logged in, we update the server combo box selection to
-        /// the MRU server or to the currently connected server
+        /// Initializes the view.
         /// </summary>
         /// <param name="configuration"></param>
         public void UpdateFromConfig()
@@ -81,7 +79,6 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
 
         /// <summary>
         /// Adds the currently selected connection to the configuration so it is persisted
-        /// in the MRU cache as well as the auto-startup connection
         /// </summary>
         /// <param name="configuration"></param>
         public void UpdateConfigFromSelections(ConfigurationModel configuration)
@@ -93,7 +90,6 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
                 Dictionary<Guid, string> configs = JsonConvert.DeserializeObject<Dictionary<Guid, string>>(seralizedConfigs);
 
                 string newConfigs = issueConfigurationControl.OnSave();
-
                 configs[selectedIssueReporter.StableIdentifier] = newConfigs;
                 configuration.IssueReporterSerializedConfigs = JsonConvert.SerializeObject(configs);
                 IssueReporterManager.GetInstance().SetIssueReporter(selectedIssueReporter.StableIdentifier);
@@ -102,8 +98,7 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
         }
 
         /// <summary>
-        /// For this control we want SaveAndClose to be enabled if any team project
-        /// is selected, regardless of whether it differs from the current configuration.
+        /// For this control we want SaveAndClose to be enabled if the extension control indicates that something can be saved.
         /// </summary>
         public bool IsConfigurationChanged()
         {
@@ -112,12 +107,11 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
         #endregion
 
         /// <summary>
-        /// Routes to the correct state given whether the user has logged into the server or not.
-        /// If the user is connected to the server but they haven't chosen a team project / team yet, we 
-        /// allow them to select their team project / team without having to re-connect.
+        /// Inititates the view. Fetches a list of all the available issue reporters and creates a list.
+        /// </summary>
         public void InitializeView()
         {
-            IReadOnlyDictionary<Guid, IIssueReporting> options = BugReporter.GetIssueReporters();
+            IReadOnlyDictionary<Guid, IIssueReporting> options = IssueReporterManager.GetInstance().GetIssueFilingOptionsDict();
             availableIssueReporters.Children.Clear();
             Guid selectedGUID = BugReporter.IssueReporting != null ? BugReporter.IssueReporting.StableIdentifier : default(Guid);
             foreach (var reporter in options)

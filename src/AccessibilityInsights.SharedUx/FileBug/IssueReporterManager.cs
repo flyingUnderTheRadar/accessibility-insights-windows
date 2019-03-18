@@ -64,6 +64,7 @@ namespace AccessibilityInsights.SharedUx.FileBug
                 }
             }
 
+            // The following 4 lines will be removed after the integration is completed.
             TestIssueProvider TIP = new TestIssueProvider();
             IssueReportingOptionsDict.Add(TIP.StableIdentifier, TIP);
 
@@ -76,12 +77,18 @@ namespace AccessibilityInsights.SharedUx.FileBug
             return IssueReportingOptionsDict;
         }
 
+        /// <summary>
+        /// Sets the issue reporter guid in the issue reporter manager and makes sure that the bug reporter instance is updated.
+        /// </summary>
+        /// <param name="issueReporterGuid"> The StableId of the selected issue reporter</param>
         public void SetIssueReporter(Guid issueReporterGuid)
         {
-            SelectedIssueReporterGuid = issueReporterGuid;
-            IIssueReporting selectedIssueReporter;
-            IssueReportingOptionsDict.TryGetValue(issueReporterGuid, out selectedIssueReporter);
-            BugReporter.IssueReporting = selectedIssueReporter;
+            IssueReportingOptionsDict.TryGetValue(issueReporterGuid, out IIssueReporting selectedIssueReporter);
+            if (selectedIssueReporter != null)
+            {
+                SelectedIssueReporterGuid = issueReporterGuid;
+                BugReporter.IssueReporting = selectedIssueReporter;
+            }
         }
     }
 
