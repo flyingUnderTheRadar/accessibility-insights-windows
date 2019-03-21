@@ -1149,7 +1149,7 @@ namespace AccessibilityInsights.SharedUx.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquam auctor placerat. Nunc in nulla sed turpis luctus pretium auctor quis sem. Quisque sit amet eros rutrum, lobortis nunc sed, aliquam ex. Etiam metus purus, facilisis vel molestie ac, molestie vel erat. .
+        ///   Looks up a localized string similar to Updated description from Risa with a really cool and helpful link to learn more..
         /// </summary>
         public static string connectionInstrText {
             get {

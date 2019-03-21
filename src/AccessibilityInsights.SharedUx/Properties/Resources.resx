@@ -340,7 +340,7 @@
     <value>The hotkey you assigned is duplicated with the existing one. please set a new hotkey.</value>
   </data>
   <data name="connectionInstrText" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquam auctor placerat. Nunc in nulla sed turpis luctus pretium auctor quis sem. Quisque sit amet eros rutrum, lobortis nunc sed, aliquam ex. Etiam metus purus, facilisis vel molestie ac, molestie vel erat. </value>
+    <value>Updated description from Risa with a really cool and helpful link to learn more.</value>
   </data>
   <data name="ServerComboBoxAutomationPropertiesName" xml:space="preserve">
     <value>Enter the full Azure DevOps URL such as https://dev.azure.com/fabrikam</value>

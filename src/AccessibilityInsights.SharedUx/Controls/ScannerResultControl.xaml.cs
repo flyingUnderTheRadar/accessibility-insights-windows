@@ -37,7 +37,7 @@ namespace AccessibilityInsights.SharedUx.Controls
         /// <summary>
         /// Fixed width for bug column
         /// </summary>
-        const int BugColumnWidth = 80;
+        const int BugColumnWidth = 90;
 
         /// <summary>
         /// Constructor

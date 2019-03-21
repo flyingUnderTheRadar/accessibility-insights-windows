@@ -71,7 +71,6 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
             {
                 issueFilingGrid.Children.Remove(issueConfigurationControl);
                 issueConfigurationControl = null;
-                UpdateSaveButton();
             }
 
             Guid clickedOptionTag = (Guid)((RadioButton)sender).Tag;
@@ -82,6 +81,7 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
                 Grid.SetRow(issueConfigurationControl, 3);
                 issueFilingGrid.Children.Add(issueConfigurationControl);
             }
+            UpdateSaveButton();
         }
 
         /// <summary>
@@ -90,11 +90,13 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
         /// <param name="configuration"></param>
         public bool UpdateConfigFromSelections(ConfigurationModel configuration)
         {
-            if (issueConfigurationControl != null && issueConfigurationControl.CanSave)
+            if (issueConfigurationControl != null && (issueConfigurationControl.CanSave || configuration.SelectedIssueReporter != selectedIssueReporter?.StableIdentifier))
             {
                 configuration.SelectedIssueReporter = selectedIssueReporter.StableIdentifier;
                 string serializedConfigs = configuration.IssueReporterSerializedConfigs;
-                Dictionary<Guid, string> configs = JsonConvert.DeserializeObject<Dictionary<Guid, string>>(serializedConfigs);
+                Dictionary<Guid, string> configs = string.IsNullOrEmpty(serializedConfigs) ? new Dictionary<Guid, string>() 
+                    : JsonConvert.DeserializeObject<Dictionary<Guid, string>>(serializedConfigs);
+
                 configs = configs ?? new Dictionary<Guid, string>();
 
                 if (serializedConfigs != null)
@@ -115,9 +117,11 @@ namespace AccessibilityInsights.SharedUx.Controls.SettingsTabs
         /// <summary>
         /// For this control we want SaveAndClose to be enabled if the extension control indicates that something can be saved.
         /// </summary>
-        public bool IsConfigurationChanged()
+        public bool IsConfigurationChanged(ConfigurationModel configuration)
         {
-            return issueConfigurationControl != null ? issueConfigurationControl.CanSave : false;
+            var changed = configuration.SelectedIssueReporter != selectedIssueReporter?.StableIdentifier;
+
+            return changed || (issueConfigurationControl != null ? issueConfigurationControl.CanSave : false);
         }
         #endregion
 

@@ -24,7 +24,7 @@ namespace AccessibilityInsights.Extensions.GitHub
         public override string OnSave()
         {
             this.Config.RepoLink = this.tbURL.Text;
-            canSave = false;
+            //canSave = false;
             UpdateSaveButton();
             return JsonConvert.SerializeObject(this.Config);
         }
@@ -35,7 +35,7 @@ namespace AccessibilityInsights.Extensions.GitHub
         public override void OnDismiss()
         {
             this.tbURL.Text = this.Config.RepoLink;
-            canSave = false;
+            //canSave = false;
             UpdateSaveButton();
         }
 
@@ -44,20 +44,20 @@ namespace AccessibilityInsights.Extensions.GitHub
             string curURL = this.tbURL.Text;
             if (!string.IsNullOrEmpty(curURL) && ((this.Config !=null && string.IsNullOrEmpty(this.Config.RepoLink)) || !this.Config.Equals(curURL)))
             {
-                canSave = true;
+                //canSave = true;
             }
             else
             {
-                canSave = false;
+                //canSave = false;
             }
             UpdateSaveButton();
         }
 
-        private bool canSave = false;
+        //private bool canSave = false;
         /// <summary>
         /// Can the save button be clicked
         /// </summary>
-        public override bool CanSave => canSave;
+        public override bool CanSave => tbURL.Text != Config.RepoLink;
 
 
         private Action updateSaveButton;
@@ -70,6 +70,16 @@ namespace AccessibilityInsights.Extensions.GitHub
             {
                 updateSaveButton = value;
                 this.tbURL.TextChanged += TextChangeUpdateSaveButton;
+            }
+        }
+
+        #pragma warning disable CA1801 // unused parameter
+        private void IssueConfigurationControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        #pragma warning restore CA1801 // unused parameter
+        {
+            if ((bool)e.NewValue)
+            {
+                tbURL.Text = Config.RepoLink;
             }
         }
     }
