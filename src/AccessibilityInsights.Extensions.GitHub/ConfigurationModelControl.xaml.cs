@@ -79,5 +79,22 @@ namespace AccessibilityInsights.Extensions.GitHub
                 this.tbURL.TextChanged += TextChangeUpdateSaveButton;
             }
         }
+
+        private void IssueConfigurationControl_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            if (sender !=null && (bool)e.NewValue)
+            {
+                if (Config != null && !string.IsNullOrEmpty(Config.RepoLink) && LinkValidator.IsValidGitHubRepoLink(Config.RepoLink) && !Config.RepoLink.Equals(PlaceHolderTextBox.PlaceHolder, StringComparison.InvariantCulture))
+                {
+                    tbURL.Text = Config.RepoLink;
+                    tbURL.Foreground = PlaceHolderTextBox.BlackBrush;
+                    //IsConfigured(true);
+                }
+                else
+                {
+                }
+
+            }
+        }
     }
 }
